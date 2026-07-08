@@ -527,47 +527,63 @@ h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height
   /* ---------- Garment SVG placeholder (used until real /assets image loads) ---------- */
   function garment(opts){
     const {name="",color="#CFCCC5",bg="#EFEDE8",bg2="#DED9D0",type="tee",print=""}=opts;
-    const dark=shade(color,-18), light=shade(color,14);
-    let body="";
+    const dark=shade(color,-24), darker=shade(color,-40), light=shade(color,18), hi=shade(color,34);
+    let sil, extra="";
     if(type==="pant"){
-      body=`<rect x="228" y="250" width="144" height="46" rx="8" fill="${dark}"/>
-        <path d="M232 292 L224 706 L294 706 L300 486 L306 706 L376 706 L368 292 Z" fill="${color}"/>
-        <path d="M300 300 L300 486" stroke="${dark}" stroke-width="3" opacity=".5"/>`;
+      sil="M230 250 H370 L364 300 L352 700 H306 L300 470 L294 700 H248 L236 300 Z";
+      extra=`<path d='M300 300 V690' stroke='${darker}' stroke-width='3' opacity='.35'/>
+        <path d='M252 340 q-6 170 4 350 M348 340 q6 170 -4 350' stroke='${darker}' stroke-width='2' fill='none' opacity='.28'/>
+        <path d='M244 468 q56 22 112 0' stroke='${darker}' stroke-width='2' fill='none' opacity='.2'/>
+        <rect x='236' y='250' width='134' height='16' fill='${darker}' opacity='.4'/>
+        <circle cx='262' cy='276' r='4' fill='${darker}' opacity='.5'/>`;
     }else{
-      const sleeveLo = type==="tee"? "" :
-        `<path d="M128 356 L150 470 L206 452 L210 360 Z" fill="${color}"/>
-         <path d="M472 356 L450 470 L394 452 L390 360 Z" fill="${color}"/>`;
-      body=`<path d="M205 244 C180 250 168 262 150 300 L128 356 L188 388 L214 336 L214 648
-        C214 676 232 690 262 690 L338 690 C368 690 386 676 386 648 L386 336 L412 388 L472 356
-        L450 300 C432 262 420 250 395 244 C360 268 240 268 205 244 Z" fill="${color}"/>${sleeveLo}
-        <path d="M214 336 L214 648 C214 676 232 690 262 690 L300 690 L300 300 Z" fill="${light}" opacity=".35"/>`;
+      sil="M205 244 C180 250 168 262 150 300 L128 356 L188 388 L214 336 L214 648 C214 676 232 690 262 690 L338 690 C368 690 386 676 386 648 L386 336 L412 388 L472 356 L450 300 C432 262 420 250 395 244 C360 268 240 268 205 244 Z";
+      extra=`<path d='M232 250 q68 58 136 0' stroke='${darker}' stroke-width='2' fill='none' opacity='.3'/>
+        <path d='M252 420 q10 120 -6 250 M356 405 q-6 130 4 262' stroke='${darker}' stroke-width='2' fill='none' opacity='.22'/>
+        <path d='M214 470 q42 18 0 40 M386 470 q-42 18 0 40' stroke='${darker}' stroke-width='2' fill='none' opacity='.18'/>`;
       if(type==="hoodie"){
-        body+=`<path d="M232 244 C232 300 300 322 300 322 C300 322 368 300 368 244 C346 224 254 224 232 244 Z" fill="${dark}"/>
-          <path d="M286 250 L286 300 M314 250 L314 300" stroke="${light}" stroke-width="4" opacity=".6"/>
-          <rect x="250" y="556" width="100" height="74" rx="10" fill="${dark}" opacity=".7"/>`;
+        extra+=`<path d='M230 244 C232 304 300 328 300 328 C300 328 368 304 370 244 C348 220 252 220 230 244 Z' fill='${dark}'/>
+          <path d='M246 240 C258 288 300 308 300 308 C300 308 342 288 354 240' fill='none' stroke='${darker}' stroke-width='2' opacity='.55'/>
+          <line x1='286' y1='252' x2='286' y2='306' stroke='${hi}' stroke-width='5' opacity='.75'/>
+          <line x1='314' y1='252' x2='314' y2='306' stroke='${hi}' stroke-width='5' opacity='.75'/>
+          <path d='M248 560 h104 a12 12 0 0 1 12 12 v46 a12 12 0 0 1 -12 12 h-104 a12 12 0 0 1 -12 -12 v-46 a12 12 0 0 1 12 -12 z' fill='${darker}' opacity='.5'/>`;
       }
       if(type==="jacket"){
-        body+=`<path d="M300 250 L300 690" stroke="${dark}" stroke-width="4" opacity=".7"/>
-          <path d="M214 300 L214 322 L386 322 L386 300" stroke="#EDEBE6" stroke-width="7" opacity=".9" fill="none"/>
-          <path d="M214 650 L386 650" stroke="#EDEBE6" stroke-width="9" opacity=".85"/>
-          <rect x="230" y="252" width="140" height="20" rx="4" fill="${dark}"/>`;
+        extra+=`<path d='M300 252 V690' stroke='${darker}' stroke-width='4' opacity='.55'/>
+          <path d='M300 252 l-28 40 M300 252 l28 40' stroke='${darker}' stroke-width='3' fill='none' opacity='.5'/>
+          <rect x='212' y='648' width='176' height='24' fill='${dark}'/>
+          <path d='M214 300 h172 M214 314 h172' stroke='${hi}' stroke-width='3' opacity='.4'/>
+          <path d='M150 468 h44 M406 468 h44' stroke='${hi}' stroke-width='3' opacity='.35'/>`;
       }
       if(print){
-        body+=`<text x="300" y="452" fill="${dark}" font-family="Space Mono, monospace" font-weight="700"
-          font-size="66" letter-spacing="4" text-anchor="middle">${print}</text>`;
+        const pc=type==='tee'?hi:darker;
+        extra+=`<text x='300' y='452' fill='${pc}' font-family='Space Mono, monospace' font-weight='700' font-size='58' letter-spacing='3' text-anchor='middle' opacity='.9'>${print}</text>`;
       }
     }
     const svg=
 `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800' viewBox='0 0 600 800'>
-<defs><linearGradient id='b' x1='0' y1='0' x2='0' y2='1'>
-<stop offset='0' stop-color='${bg}'/><stop offset='1' stop-color='${bg2}'/></linearGradient>
-<radialGradient id='v' cx='.5' cy='.42' r='.75'><stop offset='.55' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='.14'/></radialGradient></defs>
+<defs>
+<linearGradient id='b' x1='0' y1='0' x2='.35' y2='1'><stop offset='0' stop-color='${bg}'/><stop offset='1' stop-color='${bg2}'/></linearGradient>
+<clipPath id='c'><path d='${sil}'/></clipPath>
+<radialGradient id='hl' cx='.34' cy='.24' r='.85'><stop offset='0' stop-color='#fff' stop-opacity='.32'/><stop offset='.6' stop-color='#fff' stop-opacity='0'/></radialGradient>
+<radialGradient id='sd' cx='.72' cy='.8' r='.9'><stop offset='0' stop-color='#000' stop-opacity='.34'/><stop offset='.72' stop-color='#000' stop-opacity='0'/></radialGradient>
+<radialGradient id='v' cx='.5' cy='.4' r='.8'><stop offset='.5' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='.16'/></radialGradient>
+<filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/></filter>
+</defs>
 <rect width='600' height='800' fill='url(#b)'/>
-<line x1='300' y1='60' x2='300' y2='150' stroke='#111' stroke-opacity='.35' stroke-width='2'/>
-<path d='M300 96 c0 -26 -34 -26 -34 -4' fill='none' stroke='#111' stroke-opacity='.4' stroke-width='4'/>
-<path d='M300 150 L206 236 M300 150 L394 236 M206 236 L394 236' stroke='#111' stroke-opacity='.4' stroke-width='5' fill='none' stroke-linejoin='round'/>
-${body}
+<ellipse cx='300' cy='716' rx='150' ry='24' fill='#000' opacity='.10'/>
+<line x1='300' y1='58' x2='300' y2='150' stroke='#111' stroke-opacity='.32' stroke-width='2'/>
+<path d='M300 94 c0 -26 -34 -26 -34 -4' fill='none' stroke='#111' stroke-opacity='.38' stroke-width='4'/>
+<path d='M300 150 L206 236 M300 150 L394 236 M206 236 L394 236' stroke='#111' stroke-opacity='.38' stroke-width='5' fill='none' stroke-linejoin='round'/>
+<g clip-path='url(#c)'>
+<path d='${sil}' fill='${color}'/>
+<rect width='600' height='800' fill='url(#hl)'/>
+<rect width='600' height='800' fill='url(#sd)'/>
+</g>
+<path d='${sil}' fill='none' stroke='${darker}' stroke-width='1.5' opacity='.26'/>
+${extra}
 <rect width='600' height='800' fill='url(#v)'/>
+<rect width='600' height='800' filter='url(#n)' opacity='.5'/>
 <text x='40' y='748' fill='#17161A' fill-opacity='.5' font-family='Space Mono, monospace' font-size='17' letter-spacing='3'>ERA WORLD</text>
 <text x='40' y='776' fill='#17161A' fill-opacity='.42' font-family='Bodoni Moda, serif' font-style='italic' font-size='24'>${name}</text>
 </svg>`;
