@@ -7,6 +7,10 @@
 <meta name="description" content="Era World — contemporary western apparel from Gwalior. Shop the SS26 collection: tees, hoodies, outerwear and denim built for the everyday modern wardrobe." />
 <meta property="og:title" content="Era World — Wear Your Era" />
 <meta property="og:description" content="The SS26 collection is now live." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/hero.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%2317161A'/%3E%3Cpath d='M13 27V13h9M13 20h7M13 27h9' stroke='%23F5F3EF' stroke-width='2' fill='none'/%3E%3Cpath d='M20 13l4 14 3.5-9 3.5 9' stroke='%237A1F2B' stroke-width='2' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E" />
 <title>Era World — Wear Your Era</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,6 +55,29 @@ h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
 .reveal.is-visible{opacity:1;transform:none;}
+
+/* redesign polish: typographic finishing */
+h1,h2,h3,h4{text-wrap:balance;}
+p{text-wrap:pretty;}
+.card__price,.line__price,.pv__price,.co-line,.co-summary .val,.subtotal .val,.stepper span,.hero__season .eyebrow{font-variant-numeric:tabular-nums;}
+
+/* pressed/active feedback (physical click) */
+.btn:active,.qa-btn:active,.size:active,.filter:active,.cnav:active,.iconbtn:active,.card__quick .qa-btn:active{transform:scale(.97);}
+
+/* staggered card entry when a collection scrolls into view */
+.collection .card{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.collection.is-visible .card{opacity:1;transform:none;}
+.collection.is-visible .card:nth-child(2){transition-delay:.06s;}
+.collection.is-visible .card:nth-child(3){transition-delay:.12s;}
+.collection.is-visible .card:nth-child(4){transition-delay:.18s;}
+
+/* fixed grain overlay to break digital flatness */
+body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;}
+
+/* legal links in footer */
+.foot-legal{display:flex;gap:1.3rem;}
 
 /* image fade-in on load */
 .imgfx{background:var(--porcelain-dim);}
@@ -161,7 +188,7 @@ h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height
 .center-cta{text-align:center;margin-top:clamp(1.8rem,4vw,2.6rem);}
 
 /* ============================ FULL-WIDTH BANNER ============================ */
-.banner{position:relative;min-height:78vh;display:flex;align-items:center;overflow:hidden;color:var(--porcelain);isolation:isolate;}
+.banner{position:relative;min-height:78dvh;display:flex;align-items:center;overflow:hidden;color:var(--porcelain);isolation:isolate;}
 .banner__bg{position:absolute;inset:-8% 0;z-index:-2;will-change:transform;}
 .banner__bg img{width:100%;height:100%;object-fit:cover;}
 .banner__scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(23,22,26,.78),rgba(23,22,26,.15) 65%);}
@@ -310,6 +337,7 @@ h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
   .reveal{opacity:1;transform:none;} .imgfx img{opacity:1;}
+  .collection .card{opacity:1;transform:none;}
   .hero__bg,.banner__bg{transform:none !important;}
 }
 </style>
@@ -476,6 +504,7 @@ h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:600;line-height
     </div>
     <div class="footer__bottom">
       <span>© <span id="year"></span> Era World. All rights reserved.</span>
+      <nav class="foot-legal" aria-label="Legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></nav>
       <div class="pay"><span>UPI</span><span>VISA</span><span>MASTERCARD</span><span>COD</span></div>
     </div>
   </div>
