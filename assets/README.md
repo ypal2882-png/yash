@@ -9,7 +9,9 @@ Recommended: high-quality JPG/WebP. Product shots 3:4 portrait
 ## Full-width lifestyle / campaign images
 - hero.jpg        -> top hero banner  — use the "Rarest of Em All" worn/crowd campaign shot
 - banner.jpg      -> mid-page promo   — use the black "Coming Soon" tee flat-lay
+- atelier.jpg     -> "The Atelier" split section — a studio / making-of shot
 - creators.jpg    -> closing band     — use the distressed baggy-jean concrete shot
+- lookbook-1.jpg … lookbook-5.jpg -> the horizontal Lookbook strip (portrait 3:4)
 
 ## New Arrivals (first 4 uploads, in order)
 - products/01-white-tee.jpg       -> White Oversized Tee
