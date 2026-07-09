@@ -86,6 +86,10 @@ body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;op
 .hero__scroll svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none;animation:bob 1.9s var(--ease) infinite;}
 @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
 
+/* cinematic Ken Burns push-in on the hero photo */
+.hero__bg img{transform-origin:50% 38%;animation:kenburns 22s var(--ease) forwards;}
+@keyframes kenburns{from{transform:scale(1.005);}to{transform:scale(1.1);}}
+
 /* ---- ethos marquee ---- */
 .marquee{background:var(--ink);color:var(--porcelain);overflow:hidden;border-block:1px solid rgba(245,243,239,.1);}
 .marquee__track{display:flex;gap:3.5rem;width:max-content;padding-block:1.05rem;animation:scrollx 36s linear infinite;}
@@ -388,6 +392,7 @@ body::after{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;op
   .reveal{opacity:1;transform:none;} .imgfx img{opacity:1;}
   .collection .card{opacity:1;transform:none;}
   .marquee__track{animation:none;justify-content:center;} .hero__scroll svg{animation:none;}
+  .hero__bg img{animation:none;}
   .hero__bg,.banner__bg{transform:none !important;}
 }
 </style>
@@ -728,10 +733,10 @@ ${extra}
     return "#"+((1<<24)+(Math.max(0,Math.min(255,r))<<16)+(Math.max(0,Math.min(255,g))<<8)+Math.max(0,Math.min(255,b))).toString(16).slice(1);
   }
 
-  /* ---------- Catalogue (New Arrivals = your 4 uploads, in order) ---------- */
+  /* ---------- Catalogue (mapped to real product photography in /assets) ---------- */
   const SIZES=["XS","S","M","L","XL","XXL"];
   const PRODUCTS=[
-    // NEW ARRIVALS — maps to your uploaded images
+    // NEW ARRIVALS — tops & outerwear
     {id:"p1",coll:"new",name:"Blank Boxy Tee",cat:"White",price:1899,new:true,sizes:SIZES,
       src:"assets/products/01-white-tee.jpg",ph:garment({name:"Boxy Tee — White",color:"#E9E7E2",bg:"#F1EFEA",bg2:"#DBD7CF",type:"tee"}),
       desc:"A heavyweight boxy tee in organic cotton with a clean crew neck and a relaxed, dropped-shoulder cut. Unisex."},
@@ -744,19 +749,28 @@ ${extra}
     {id:"p4",coll:"new",name:"Essentials Pullover Hoodie",cat:"Black",price:4999,new:true,sizes:SIZES,
       src:"assets/products/04-black-hoodie.jpg",ph:garment({name:"Essentials Hoodie — Black",color:"#1F1F22",bg:"#CFCBC3",bg2:"#B4B0A8",type:"hoodie"}),
       desc:"A minimalist pullover hoodie in heavy loop-back cotton with tonal branding and an oversized, drapey body."},
-    // ESSENTIALS EDIT — your second batch of uploads
-    {id:"p5",coll:"ess",name:"Striped Oxford Shirt",cat:"Blue",price:2899,new:false,sizes:SIZES,
-      src:"assets/products/05-striped-shirt.jpg",ph:garment({name:"Striped Shirt — Blue",color:"#AFC5DD",bg:"#F1EFEA",bg2:"#DDDAD2",type:"jacket"}),
+    {id:"p5",coll:"new",name:"'Fanori' Owl Graphic Tee",cat:"Black",price:2199,new:true,sizes:SIZES,
+      src:"assets/products/05-fanori-tee.jpg",ph:garment({name:"Graphic Tee — Black",color:"#1E1E20",bg:"#E7E4DD",bg2:"#CFCBC3",type:"tee",print:"FANORI"}),
+      desc:"An oversized garment-dyed tee with a hand-drawn owl back print. Heavyweight cotton, washed for a vintage hand-feel."},
+    // ESSENTIALS EDIT — shirting & denim
+    {id:"p6",coll:"ess",name:"Striped Oxford Shirt",cat:"Blue Stripe",price:2899,new:false,sizes:SIZES,
+      src:"assets/products/06-striped-shirt.jpg",ph:garment({name:"Striped Shirt — Blue",color:"#AFC5DD",bg:"#F1EFEA",bg2:"#DDDAD2",type:"jacket"}),
       desc:"A relaxed oxford shirt in a fine blue-and-white stripe with a soft collar and a boxy, tuck-optional length."},
-    {id:"p6",coll:"ess",name:"Straight Leg Denim",cat:"Indigo",price:3799,new:false,sizes:SIZES,
-      src:"assets/products/06-straight-denim.jpg",ph:garment({name:"Straight Denim — Indigo",color:"#3C4C66",bg:"#B7B08C",bg2:"#9C9678",type:"pant"}),
-      desc:"A mid-wash rigid denim in a true straight leg with contrast stitching and a leather patch."},
-    {id:"p7",coll:"ess",name:"Baggy Carpenter Jean",cat:"Washed",price:3499,new:true,sizes:SIZES,
-      src:"assets/products/07-baggy-jeans.jpg",ph:garment({name:"Baggy Jean — Washed",color:"#A7B7C7",bg:"#CFCCC6",bg2:"#B7B4AD",type:"pant"}),
-      desc:"A light-wash baggy jean with a dropped crotch, raw-edge hem and lived-in distressing."},
-    {id:"p8",coll:"ess",name:"'Rarest' Graphic Tee",cat:"Washed Black",price:2199,new:true,sizes:SIZES,
-      src:"assets/products/08-graphic-tee.jpg",ph:garment({name:"Graphic Tee — Washed Black",color:"#3A3A3E",bg:"#D9D6D0",bg2:"#BFBCB4",type:"tee",print:"RAREST"}),
-      desc:"An oversized, garment-dyed tee with a hand-drawn back print. Heavyweight cotton, washed for a vintage hand-feel."}
+    {id:"p7",coll:"ess",name:"Check Flannel Overshirt",cat:"Navy",price:3299,new:false,sizes:SIZES,
+      src:"assets/products/07-flannel-shirt.jpg",ph:garment({name:"Flannel — Navy",color:"#2E3A52",bg:"#D9D6D0",bg2:"#C0BDB6",type:"jacket"}),
+      desc:"A brushed-cotton check overshirt with a camp collar and chest pockets — light layering that works over a tee."},
+    {id:"p8",coll:"ess",name:"Straight Leg Denim",cat:"Indigo",price:3799,new:true,sizes:SIZES,
+      src:"assets/products/08-indigo-denim.jpg",ph:garment({name:"Straight Denim — Indigo",color:"#3C4C66",bg:"#B7B08C",bg2:"#9C9678",type:"pant"}),
+      desc:"A mid-wash rigid denim in a true straight leg with contrast stitching and a signature leather patch."},
+    {id:"p9",coll:"ess",name:"Flared Wash Jean",cat:"Light Wash",price:3599,new:false,sizes:SIZES,
+      src:"assets/products/09-flare-jean.jpg",ph:garment({name:"Flare Jean — Light",color:"#AEB9C6",bg:"#CFCCC6",bg2:"#B7B4AD",type:"pant"}),
+      desc:"A light-wash flared jean with a high rise, raw-edge hem and a lived-in sun-faded finish."},
+    {id:"p10",coll:"ess",name:"Baggy Carpenter Jean",cat:"Distressed",price:3499,new:true,sizes:SIZES,
+      src:"assets/products/10-baggy-jean.jpg",ph:garment({name:"Baggy Jean — Washed",color:"#A7B7C7",bg:"#CFCCC6",bg2:"#B7B4AD",type:"pant"}),
+      desc:"A light-wash baggy carpenter jean with a dropped crotch, raw-edge hem and hand-done distressing."},
+    {id:"p11",coll:"ess",name:"Faded Wide Jean",cat:"Washed Black",price:3899,new:false,sizes:SIZES,
+      src:"assets/products/11-black-jean.jpg",ph:garment({name:"Wide Jean — Black",color:"#2A2A2E",bg:"#CFCCC6",bg2:"#B4B0A8",type:"pant"}),
+      desc:"A faded-black wide-leg jean in rigid denim with a soft hand-sanded wash and a relaxed, stacked leg."}
   ];
   const byId=id=>PRODUCTS.find(p=>p.id===id);
 
@@ -785,11 +799,11 @@ ${extra}
 
   /* ---------- Lookbook ---------- */
   const LOOKBOOK=[
-    {t:"Look 01",s:"The Bomber",p:["#2C3230","#3E4A44","#5A6B60"]},
-    {t:"Look 02",s:"Off-Duty",p:["#3A3A3E","#4A4A4E","#5E5E60"]},
+    {t:"Look 01",s:"The Statement",p:["#3A3A3E","#4A4A4E","#5E5E60"]},
+    {t:"Look 02",s:"The Denim",p:["#5B5545","#7A6E52","#A8996E"]},
     {t:"Look 03",s:"Monochrome",p:["#26303A","#3E5060","#66788A"]},
-    {t:"Look 04",s:"The Denim",p:["#5B5545","#7A6E52","#A8996E"]},
-    {t:"Look 05",s:"Layered",p:["#42323A","#6E4B50","#B98A7A"]}
+    {t:"Look 04",s:"Washed Out",p:["#8C8A82","#A7A59B","#C2BFB4"]},
+    {t:"Look 05",s:"The Graphic",p:["#2C3230","#3E4A44","#5A6B60"]}
   ];
   $("#lookbookTrack").innerHTML=LOOKBOOK.map((l,i)=>
     `<a class="look" href="#new-arrivals">
